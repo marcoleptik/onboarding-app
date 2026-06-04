@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding RS - Ouverture des droits d'accès</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Progress -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-text">Recommerce</span>
+                <span class="logo-sub">Onboarding</span>
+            </div>
+            <nav class="step-nav">
+                <ul id="step-list">
+                    <li class="step-item active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Informations personnelles</span>
+                    </li>
+                    <li class="step-item" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Contrat & Poste</span>
+                    </li>
+                    <li class="step-item" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Matériel</span>
+                    </li>
+                    <li class="step-item" data-step="4">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Applications</span>
+                    </li>
+                    <li class="step-item" data-step="5">
+                        <span class="step-number">5</span>
+                        <span class="step-label">Backoffice & Mailing</span>
+                    </li>
+                    <li class="step-item" data-step="6">
+                        <span class="step-number">6</span>
+                        <span class="step-label">Récapitulatif</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="form-container">
+                <!-- Step 1: Personal Info -->
+                <section class="form-step active" data-step="1">
+                    <div class="step-header">
+                        <h1>Informations personnelles</h1>
+                        <p>Renseignez les informations de base du futur collaborateur</p>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstname">Prénom / First name <span class="required">*</span></label>
+                            <input type="text" id="firstname" name="firstname" required placeholder="Prénom">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Nom / Surname <span class="required">*</span></label>
+                            <input type="text" id="lastname" name="lastname" required placeholder="Nom">
+                        </div>
+                        <div class="form-group">
+                            <label for="personal-email">Mail personnel / Personal email <span class="required">*</span></label>
+                            <input type="email" id="personal-email" name="personal-email" required placeholder="email@exemple.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="pro-email">Mail professionnel / Professional email</label>
+                            <input type="email" id="pro-email" name="pro-email" placeholder="prenom.nom@recommerce.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="start-date">Date d'arrivée / Starting date <span class="required">*</span></label>
+                            <input type="date" id="start-date" name="start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-date">Date de fin de mission / End date</label>
+                            <input type="date" id="end-date" name="end-date">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 2: Contract & Job -->
+                <section class="form-step" data-step="2">
+                    <div class="step-header">
+                        <h1>Contrat & Poste</h1>
+                        <p>Informations relatives au contrat et au poste</p>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Type de contrat / Type of contract <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="contract-type" value="CDI">
+                                    <span class="radio-card-content">CDI</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="contract-type" value="CDD">
+                                    <span class="radio-card-content">CDD</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="contract-type" value="Stage">
+                                    <span class="radio-card-content">Stage</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="contract-type" value="Alternance">
+                                    <span class="radio-card-content">Alternance</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="contract-type" value="Freelance">
+                                    <span class="radio-card-content">Freelance</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="contract-type" value="Interim">
+                                    <span class="radio-card-content">Intérim</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-title">Métier / Job <span class="required">*</span></label>
+                            <select id="job-title" name="job-title" required>
+                                <option value="" disabled selected>Sélectionner un métier...</option>
+                                <optgroup label="DSI / Tech">
+                                    <option value="Développeur">Développeur</option>
+                                    <option value="Lead Dev">Lead Dev</option>
+                                    <option value="Tech Lead">Tech Lead</option>
+                                    <option value="Architecte">Architecte</option>
+                                    <option value="DevOps">DevOps</option>
+                                    <option value="SRE">SRE</option>
+                                    <option value="QA Engineer">QA Engineer</option>
+                                    <option value="Sysadmin">Sysadmin</option>
+                                    <option value="Support IT">Support IT</option>
+                                </optgroup>
+                                <optgroup label="Data">
+                                    <option value="Data Analyst">Data Analyst</option>
+                                    <option value="Data Engineer">Data Engineer</option>
+                                    <option value="Data Scientist">Data Scientist</option>
+                                    <option value="BI Analyst">BI Analyst</option>
+                                </optgroup>
+                                <optgroup label="Produit / Projet">
+                                    <option value="Product Owner">Product Owner</option>
+                                    <option value="Product Manager">Product Manager</option>
+                                    <option value="Chef de projet">Chef de projet</option>
+                                    <option value="Business Analyst">Business Analyst</option>
+                                    <option value="UX/UI Designer">UX/UI Designer</option>
+                                </optgroup>
+                                <optgroup label="Commerce / Marketing">
+                                    <option value="Commercial">Commercial</option>
+                                    <option value="Account Manager">Account Manager</option>
+                                    <option value="Marketing Manager">Marketing Manager</option>
+                                    <option value="Chargé de communication">Chargé de communication</option>
+                                </optgroup>
+                                <optgroup label="Finance / Juridique">
+                                    <option value="Contrôleur de gestion">Contrôleur de gestion</option>
+                                    <option value="Comptable">Comptable</option>
+                                    <option value="Acheteur">Acheteur</option>
+                                    <option value="Juriste">Juriste</option>
+                                </optgroup>
+                                <optgroup label="Operations / Supply">
+                                    <option value="Supply Chain Manager">Supply Chain Manager</option>
+                                    <option value="Logisticien">Logisticien</option>
+                                    <option value="Technicien réparation">Technicien réparation</option>
+                                    <option value="Responsable qualité">Responsable qualité</option>
+                                </optgroup>
+                                <optgroup label="Support / Direction">
+                                    <option value="RH / People">RH / People</option>
+                                    <option value="Office Manager">Office Manager</option>
+                                    <option value="Direction">Direction</option>
+                                </optgroup>
+                                <option value="Autre">Autre</option>
+                            </select>
+                            <input type="text" id="job-title-other" name="job-title-other" placeholder="Préciser le métier..." style="display:none; margin-top:0.5rem;">
+                        </div>
+                        <div class="form-group">
+                            <label for="workplace-country">Pays / Country <span class="required">*</span></label>
+                            <select id="workplace-country" name="workplace-country" required>
+                                <option value="" disabled selected>Sélectionner un pays...</option>
+                                <option value="France">France</option>
+                                <option value="Roumanie">Roumanie</option>
+                                <option value="Allemagne">Allemagne</option>
+                                <option value="Hollande">Hollande</option>
+                                <option value="Espagne">Espagne</option>
+                                <option value="Italie">Italie</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                            <input type="text" id="workplace-country-other" name="workplace-country-other" placeholder="Préciser le pays..." style="display:none; margin-top:0.5rem;">
+                        </div>
+                        <div class="form-group">
+                            <label for="workplace-city">Ville / City <span class="required">*</span></label>
+                            <select id="workplace-city" name="workplace-city" required disabled>
+                                <option value="" disabled selected>Sélectionner d'abord un pays...</option>
+                            </select>
+                            <input type="text" id="workplace-city-other" name="workplace-city-other" placeholder="Préciser la ville..." style="display:none; margin-top:0.5rem;">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 3: Material -->
+                <section class="form-step" data-step="3">
+                    <div class="step-header">
+                        <h1>Matériel</h1>
+                        <p>Quel matériel sera nécessaire pour le collaborateur ?</p>
+                    </div>
+                    <div class="form-grid">
+                        <!-- Laptop toggle -->
+                        <div class="form-group full-width">
+                            <label>Laptop nécessaire ? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="laptop-needed" value="Oui">
+                                    <span class="radio-card-content">Oui</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="laptop-needed" value="Non">
+                                    <span class="radio-card-content">Non</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Laptop details (hidden by default) -->
+                        <div class="form-group full-width" id="laptop-details" style="display:none;">
+                            <div class="material-subsection">
+                                <div class="material-sub-group">
+                                    <label class="sub-label">Profil</label>
+                                    <div class="radio-group">
+                                        <label class="radio-card">
+                                            <input type="radio" name="laptop-profile" value="Dev">
+                                            <span class="radio-card-content">Dev</span>
+                                        </label>
+                                        <label class="radio-card">
+                                            <input type="radio" name="laptop-profile" value="DIP">
+                                            <span class="radio-card-content">DIP</span>
+                                        </label>
+                                        <label class="radio-card">
+                                            <input type="radio" name="laptop-profile" value="Standard">
+                                            <span class="radio-card-content">Standard</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="material-sub-group">
+                                    <label class="sub-label">Système d'exploitation</label>
+                                    <div class="radio-group">
+                                        <label class="radio-card os-card">
+                                            <input type="radio" name="laptop-os" value="macOS">
+                                            <span class="radio-card-content">
+                                                <svg class="os-logo" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                                                <span>macOS</span>
+                                            </span>
+                                        </label>
+                                        <label class="radio-card os-card">
+                                            <input type="radio" name="laptop-os" value="Linux">
+                                            <span class="radio-card-content">
+                                                <svg class="os-logo" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.368 1.884 1.43.868.07 1.723-.26 2.456-.594.532-.24 1.047-.542 1.594-.71.515-.168 1.04-.196 1.323-.39.39-.265.56-.585.563-.982-.002-.156-.018-.323-.035-.49-.037-.333-.094-.674-.09-.99.009-.665.182-1.234.351-1.733.165-.495.323-.989.291-1.505-.031-.517-.204-.981-.467-1.39-.264-.413-.591-.768-.898-1.119-.166-.187-.241-.39-.368-.585a2.69 2.69 0 01-.322-.786c-.093-.37-.1-.772-.1-1.003v-.001c0-.073-.002-.14-.002-.205-.2-1.7.073-3.065.431-4.188.239-.745.531-1.395.653-2.123.093-.563.038-1.201-.242-1.798-.183-.396-.473-.752-.83-1.017C15.96.34 14.69 0 12.504 0z"/></svg>
+                                                <span>Linux</span>
+                                            </span>
+                                        </label>
+                                        <label class="radio-card os-card">
+                                            <input type="radio" name="laptop-os" value="Windows">
+                                            <span class="radio-card-content">
+                                                <svg class="os-logo" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                                                <span>Windows</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Casque -->
+                        <div class="form-group full-width">
+                            <label>Casque</label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="headset-needed" value="Oui">
+                                    <span class="radio-card-content">
+                                        <span class="material-icons">headphones</span>
+                                        <span>Oui</span>
+                                    </span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="headset-needed" value="Non">
+                                    <span class="radio-card-content">Non</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Desk equipment -->
+                        <div class="form-group full-width">
+                            <label>Matériel sur le bureau <span class="info-badge">⚠️ Vérifier si le matériel est déjà installé sur le bureau</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="desk-material" value="Souris">
+                                    <span class="checkbox-card-content">
+                                        <span class="material-icons">mouse</span>
+                                        <span>Souris</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="desk-material" value="Clavier">
+                                    <span class="checkbox-card-content">
+                                        <span class="material-icons">keyboard</span>
+                                        <span>Clavier</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="desk-material" value="Ecran">
+                                    <span class="checkbox-card-content">
+                                        <span class="material-icons">monitor</span>
+                                        <span>Écran</span>
+                                    </span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="desk-material" value="Hub USB-C">
+                                    <span class="checkbox-card-content">
+                                        <span class="material-icons">usb</span>
+                                        <span>Hub USB-C</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 4: Applications -->
+                <section class="form-step" data-step="4">
+                    <div class="step-header">
+                        <h1>Applications</h1>
+                        <p>Sélectionnez les applications nécessaires pour le collaborateur</p>
+                    </div>
+                    <div class="form-grid applications-grid">
+                        <!-- Finance -->
+                        <div class="app-category">
+                            <h3>Applications Finance</h3>
+                            <div class="checkbox-group compact">
+                                <label class="checkbox-card"><input type="checkbox" name="apps-finance" value="Yooz"><span class="checkbox-card-content">Yooz</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-finance" value="Sage"><span class="checkbox-card-content">Sage</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-finance" value="Sage BI"><span class="checkbox-card-content">Sage BI</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-finance" value="Comptasales"><span class="checkbox-card-content">Comptasales</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-finance" value="Salesbilling"><span class="checkbox-card-content">Salesbilling</span></label>
+                            </div>
+                        </div>
+                        <!-- Achats -->
+                        <div class="app-category">
+                            <h3>Applications Achats</h3>
+                            <div class="checkbox-group compact">
+                                <label class="checkbox-card"><input type="checkbox" name="apps-achats" value="B2B"><span class="checkbox-card-content"><span class="material-icons">language</span> B2B</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-achats" value="Sourcing"><span class="checkbox-card-content"><span class="material-icons">language</span> Sourcing</span></label>
+                            </div>
+                        </div>
+                        <!-- Ventes -->
+                        <div class="app-category">
+                            <h3>Applications Ventes</h3>
+                            <div class="checkbox-group compact">
+                                <label class="checkbox-card"><input type="checkbox" name="apps-ventes" value="Akeneo"><span class="checkbox-card-content">Akeneo</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-ventes" value="Billing"><span class="checkbox-card-content">Billing</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-ventes" value="Magento"><span class="checkbox-card-content">Magento</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-ventes" value="Marello"><span class="checkbox-card-content">Marello</span></label>
+                            </div>
+                        </div>
+                        <!-- Pricing -->
+                        <div class="app-category">
+                            <h3>Applications Pricing</h3>
+                            <div class="checkbox-group compact">
+                                <label class="checkbox-card"><input type="checkbox" name="apps-pricing" value="Resale Pricing"><span class="checkbox-card-content">Resale Pricing</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-pricing" value="Batch Pricing"><span class="checkbox-card-content">Batch Pricing</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-pricing" value="Pricemoov"><span class="checkbox-card-content">Pricemoov</span></label>
+                            </div>
+                        </div>
+                        <!-- DSI -->
+                        <div class="app-category">
+                            <h3>Applications DSI</h3>
+                            <div class="checkbox-group compact">
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Okta"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 0C5.389 0 0 5.389 0 12s5.389 12 12 12 12-5.389 12-12S18.611 0 12 0zm0 18c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z"/></svg> Okta</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="VPN"><span class="checkbox-card-content"><span class="material-icons">vpn_lock</span> VPN</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="AWS"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="#FF9900" d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 01-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 01-.287-.374 6.18 6.18 0 01-.248-.467c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.032-.863.104-.296.072-.583.16-.862.272a2.287 2.287 0 01-.28.104.488.488 0 01-.127.024c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 01.224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 011.246-.152c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 00-.735-.136 6.02 6.02 0 00-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 01-.072-.32c0-.128.064-.2.191-.2h.783c.151 0 .255.025.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 01.32-.08h.638c.152 0 .256.025.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 01.311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.128a1.137 1.137 0 01-.056.2l-1.923 6.17c-.048.16-.104.264-.168.312a.549.549 0 01-.32.08h-.687c-.151 0-.255-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.177.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 01-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 00.415-.758.777.777 0 00-.215-.559c-.144-.151-.415-.287-.806-.415l-1.157-.36c-.583-.183-1.014-.454-1.277-.813a1.902 1.902 0 01-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415a3.48 3.48 0 011.005-.144c.176 0 .359.008.535.032.183.024.35.056.518.088.16.04.312.08.455.127.144.048.256.096.336.144a.69.69 0 01.24.2.43.43 0 01.071.263v.375c0 .168-.064.256-.184.256a.83.83 0 01-.303-.096 3.652 3.652 0 00-1.532-.311c-.455 0-.815.071-1.062.223-.248.152-.375.383-.375.694 0 .223.08.415.24.567.159.152.454.304.878.44l1.134.358c.574.184.99.44 1.237.767.247.327.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.734.167-1.142.167z"/><path fill="#FF9900" d="M21.725 16.92C19.16 18.89 15.415 19.94 12.17 19.94c-4.563 0-8.672-1.69-11.78-4.498-.244-.22-.025-.52.268-.35 3.353 1.95 7.502 3.128 11.79 3.128 2.89 0 6.07-.6 8.995-1.84.44-.19.81.29.383.54z"/><path fill="#FF9900" d="M22.853 15.6c-.333-.427-2.204-.203-3.046-.103-.256.032-.295-.192-.064-.352 1.49-1.048 3.935-.745 4.22-.394.287.36-.08 2.826-1.476 4.003-.215.181-.42.085-.324-.155.315-.783 1.022-2.57.69-2.998z"/></svg> AWS</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Jira"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="#2684FF" d="M11.571 11.513H0a5.218 5.218 0 005.232 5.215h2.13v2.057A5.215 5.215 0 0012.575 24V12.518a1.005 1.005 0 00-1.005-1.005z"/><path fill="#2684FF" d="M5.785 5.756H17.36a5.218 5.218 0 00-5.233-5.215h-2.13V.484A5.215 5.215 0 004.784 5.7v.056h1.001z" opacity=".65"/><path fill="#2684FF" d="M17.357 5.756a5.218 5.218 0 00-5.232 5.215v6.506a5.218 5.218 0 005.232-5.215V5.756z" opacity=".3"/></svg> Jira</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Confluence"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="#2684FF" d="M.87 18.257c-.248.382-.53.875-.763 1.245a.764.764 0 00.255 1.04l4.965 3.054a.764.764 0 001.058-.26c.199-.332.487-.834.79-1.375 1.37-2.44 2.752-2.16 5.257-.903l4.895 2.441a.764.764 0 001.003-.382l2.333-5.197a.764.764 0 00-.372-1.003C17.452 15.673 7.833 11.073.87 18.257z"/><path fill="#2684FF" d="M23.13 5.743c.248-.382.53-.875.763-1.245a.764.764 0 00-.255-1.04L18.673.404a.764.764 0 00-1.058.26c-.199.332-.487.834-.79 1.375-1.37 2.44-2.752 2.16-5.257.903L6.673.501a.764.764 0 00-1.003.382L3.337 6.08a.764.764 0 00.372 1.003c2.838 1.244 12.457 5.844 19.42-1.34z"/></svg> Confluence</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="GitHub"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> GitHub</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Licence Office 365"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="#D83B01" d="M0 0v24l24-4V4L0 0zm15 18l-9-1V7l9-3v14z"/></svg> Office 365 (Desktop)</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="NewRelic"><span class="checkbox-card-content">NewRelic</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Postman"><span class="checkbox-card-content">Postman</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Sentry"><span class="checkbox-card-content">Sentry</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Slack"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="#E01E5A" d="M5.042 15.165a2.528 2.528 0 01-2.52 2.523A2.528 2.528 0 010 15.165a2.527 2.527 0 012.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 012.521-2.52 2.527 2.527 0 012.521 2.52v6.313A2.528 2.528 0 018.834 24a2.528 2.528 0 01-2.521-2.522v-6.313z"/><path fill="#36C5F0" d="M8.834 5.042a2.528 2.528 0 01-2.521-2.52A2.528 2.528 0 018.834 0a2.528 2.528 0 012.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 012.521 2.521 2.528 2.528 0 01-2.521 2.521H2.522A2.528 2.528 0 010 8.834a2.528 2.528 0 012.522-2.521h6.312z"/><path fill="#2EB67D" d="M18.956 8.834a2.528 2.528 0 012.522-2.521A2.528 2.528 0 0124 8.834a2.528 2.528 0 01-2.522 2.521h-2.522V8.834zm-1.27 0a2.528 2.528 0 01-2.523 2.521 2.527 2.527 0 01-2.52-2.521V2.522A2.527 2.527 0 0115.163 0a2.528 2.528 0 012.523 2.522v6.312z"/><path fill="#ECB22E" d="M15.163 18.956a2.528 2.528 0 012.523 2.522A2.528 2.528 0 0115.163 24a2.527 2.527 0 01-2.52-2.522v-2.522h2.52zm0-1.27a2.527 2.527 0 01-2.52-2.523 2.527 2.527 0 012.52-2.52h6.315A2.528 2.528 0 0124 15.163a2.528 2.528 0 01-2.522 2.523h-6.315z"/></svg> Slack</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Snowflake"><span class="checkbox-card-content"><svg class="app-logo" viewBox="0 0 24 24" width="16" height="16"><path fill="#29B5E8" d="M12.052 0L11 1.052v4.79l1.052 1.053 1.052-1.052V1.052L12.052 0zM6.21 2.105L5.158 3.158l3.387 3.387 1.053 1.052 1.052-1.052-3.387-3.387L6.21 2.105zm11.684 0l-1.052 1.053-3.387 3.387 1.052 1.052 3.387-3.387 1.053-1.052-1.053-1.053zM12.052 7.895L11 8.947v6.106l1.052 1.052 1.052-1.052V8.947l-1.052-1.052zM5.158 11l-1.053 1.052 4.79 1.053 1.052-1.053-1.052-1.052H5.158zm13.684 0l-3.737 1.052-1.053 1.053 1.053 1.052 4.79-1.052L20.947 12l-1.052-1zm-12.631 3.895l-3.387 3.387 1.052 1.053 1.053 1.052 3.387-3.387-1.053-1.052-1.052-1.053zm11.578 0l-1.052 1.053 3.387 3.387 1.052-1.052 1.053-1.053-3.387-3.387-1.053 1.052zm-5.737 2.21L11 18.158v4.79L12.052 24l1.052-1.052v-4.79l-1.052-1.053z"/></svg> Snowflake</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-dsi" value="Tableau"><span class="checkbox-card-content">Tableau</span></label>
+                            </div>
+                            <div class="form-group conditional-field" id="tableau-email-group" style="display:none;">
+                                <label for="tableau-email">Email du compte Tableau <span class="required">*</span></label>
+                                <input type="email" id="tableau-email" name="tableau-email" placeholder="Email du compte requise">
+                            </div>
+                        </div>
+                        <!-- Transverses -->
+                        <div class="app-category">
+                            <h3>Applications Transverses</h3>
+                            <div class="checkbox-group compact">
+                                <label class="checkbox-card"><input type="checkbox" name="apps-transverses" value="Backoffice"><span class="checkbox-card-content">Backoffice</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-transverses" value="SOM"><span class="checkbox-card-content">SOM</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="apps-transverses" value="Common ERP"><span class="checkbox-card-content">Common ERP</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 5: Backoffice & Mailing -->
+                <section class="form-step" data-step="5">
+                    <div class="step-header">
+                        <h1>Backoffice & Mailing Lists</h1>
+                        <p>Accès Backoffice et listes de diffusion</p>
+                    </div>
+                    <div class="form-grid">
+                        <!-- Backoffice toggle -->
+                        <div class="form-group full-width">
+                            <label>Accès Backoffice nécessaire ?</label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="backoffice-needed" value="Oui">
+                                    <span class="radio-card-content">Oui</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="backoffice-needed" value="Non">
+                                    <span class="radio-card-content">Non</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" id="backoffice-details" style="display:none;">
+                            <p class="form-hint">Indiquez le prénom et nom d'un collaborateur existant pour préciser le périmètre d'accès.</p>
+                            <input type="text" id="backoffice-profile" name="backoffice-profile" placeholder="Prénom et nom du collaborateur référent">
+                        </div>
+
+                        <!-- Mailing list toggle -->
+                        <div class="form-group full-width">
+                            <label>Ajout à une mailing list ?</label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="mailing-needed" value="Oui">
+                                    <span class="radio-card-content">Oui</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="mailing-needed" value="Non">
+                                    <span class="radio-card-content">Non</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" id="mailing-details" style="display:none;">
+                            <p class="form-hint">Adresse(s) email de la/des mailing list(s)</p>
+                            <textarea id="mailing-lists" name="mailing-lists" rows="3" placeholder="Ex: team-dev@recommerce.com, all-paris@recommerce.com..."></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 6: Summary -->
+                <section class="form-step" data-step="6">
+                    <div class="step-header">
+                        <h1>Récapitulatif</h1>
+                        <p>Vérifiez les informations avant de soumettre</p>
+                    </div>
+                    <div id="summary-content" class="summary-content">
+                        <!-- Filled by JS -->
+                    </div>
+                </section>
+
+                <!-- Navigation -->
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" id="btn-prev" disabled>
+                        <span class="material-icons">arrow_back</span> Précédent
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btn-next">
+                        Suivant <span class="material-icons">arrow_forward</span>
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn-submit" style="display:none;">
+                        <span class="material-icons">check_circle</span> Soumettre
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
