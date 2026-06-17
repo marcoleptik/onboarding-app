@@ -54,7 +54,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Afficher la gate
+    // Si pas de session et pas d'erreur, lancer automatiquement le login Okta
+    // (ex: l'utilisateur arrive depuis le dashboard Okta)
+    if (!error && !sessionStorage.getItem('okta_login_attempted')) {
+        sessionStorage.setItem('okta_login_attempted', '1');
+        await startOktaLogin();
+        return;
+    }
+    sessionStorage.removeItem('okta_login_attempted');
+
+    // Afficher la gate (fallback si auto-login échoue)
     ssoGate.style.display = 'flex';
 
     // Bouton de connexion
@@ -139,6 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             localStorage.setItem(OKTA_SESSION_KEY, JSON.stringify(session));
+            sessionStorage.removeItem('okta_login_attempted');
             showApp(session);
         } catch (err) {
             errorEl.textContent = 'Erreur lors de l\'authentification. Veuillez réessayer.';
