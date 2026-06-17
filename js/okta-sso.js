@@ -5,7 +5,7 @@
  */
 
 const OKTA_CONFIG = {
-    orgUrl: 'https://recommerce.okta-emea.com',
+    orgUrl: 'https://login.recommerce.com',
     clientId: '0oak5r1481CKBgoeM0i7',
     redirectUri: window.location.origin + window.location.pathname,
     scopes: ['openid', 'profile', 'email'],
@@ -24,6 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const idToken = hashParams.get('id_token');
     const returnedState = hashParams.get('state');
     const error = hashParams.get('error');
+
+    // Gérer le paramètre iss (3rd party initiated login depuis dashboard Okta)
+    const urlParams = new URLSearchParams(window.location.search);
+    const issParam = urlParams.get('iss');
+    if (issParam) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
     if (error) {
         const errorEl = document.getElementById('sso-error');
