@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onboarding RS - Ouverture des droits d'accès</title>
-    <link rel="stylesheet" href="css/style.css?v=13">
+    <link rel="stylesheet" href="css/style.css?v=14">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -27,12 +27,16 @@
     <div class="home-screen" id="home-screen" style="display:none;">
         <div class="home-card">
             <img src="assets/rs_logo.jpg" alt="Recommerce" class="login-logo">
-            <h1>Bienvenue sur l'Onboarding RS</h1>
+            <h1>Bienvenue sur le Dashboard IT</h1>
             <p class="home-subtitle">Que souhaitez-vous faire ?</p>
             <div class="home-actions">
                 <button class="btn btn-primary btn-home" id="btn-go-onboarding">
                     <span class="material-icons">description</span>
                     Formulaire d'onboarding
+                </button>
+                <button class="btn btn-primary btn-home" id="btn-go-material">
+                    <span class="material-icons">devices</span>
+                    Demande de matériel
                 </button>
                 <a href="admin.html" class="btn btn-primary btn-home" id="btn-go-admin" style="display:none;">
                     <span class="material-icons">dashboard</span>
@@ -82,7 +86,7 @@
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <a href="#" class="sidebar-link" id="btn-back-home">
+                <a href="#" class="sidebar-link btn-back-home">
                     <span class="material-icons">home</span>
                     <span>Retour à l'accueil</span>
                 </a>
@@ -521,8 +525,79 @@
         </main>
     </div>
 
+    <!-- Material Request Section -->
+    <div class="material-container" id="material-container" style="display:none;">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/rs_logo.jpg" alt="Recommerce" class="logo-img">
+                <span class="logo-sub">Matériel</span>
+            </div>
+            <nav class="step-nav">
+                <ul>
+                    <li class="step-item active"><span class="step-number">1</span><span class="step-label">Votre demande</span></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link btn-back-home">
+                    <span class="material-icons">home</span>
+                    <span>Retour à l'accueil</span>
+                </a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="form-container">
+                <section class="form-step active">
+                    <div class="step-header">
+                        <h1>Demande de matériel</h1>
+                        <p>Sélectionnez le matériel dont vous avez besoin (bureau ou télétravail)</p>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Type de demande <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="material-type" value="Bureau" checked>
+                                    <span class="radio-card-content">Bureau</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="material-type" value="Télétravail">
+                                    <span class="radio-card-content">Télétravail</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Matériel souhaité <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Écran"><span>Écran</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Clavier"><span>Clavier</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Souris"><span>Souris</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Câble HDMI"><span>Câble HDMI</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Casque"><span>Casque</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Support PC"><span>Support PC</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Hub USB"><span>Hub USB</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Chargeur"><span>Chargeur</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="material-comment">Commentaire / Précisions</label>
+                            <textarea id="material-comment" name="material-comment" rows="3" placeholder="Précisez votre besoin si nécessaire..."></textarea>
+                        </div>
+                    </div>
+                </section>
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary btn-back-home">
+                        <span class="material-icons">arrow_back</span> Retour
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn-submit-material">
+                        <span class="material-icons">check_circle</span> Soumettre la demande
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script src="js/auth.js?v=6"></script>
-    <script src="js/okta-sso.js?v=13"></script>
+    <script src="js/okta-sso.js?v=14"></script>
     <script src="js/app.js?v=6"></script>
 </body>
 </html>

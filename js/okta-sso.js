@@ -209,9 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     homeScreen.style.display = 'none';
                     appContainer.style.display = 'flex';
                     // Populate sidebar footer with user info
-                    const sidebarFooter = document.querySelector('.sidebar-footer');
+                    const sidebarFooter = appContainer.querySelector('.sidebar-footer');
                     if (sidebarFooter) {
-                        const backLink = `<a href="#" class="sidebar-link" id="btn-back-home"><span class="material-icons">home</span><span>Retour à l'accueil</span></a>`;
                         sidebarFooter.innerHTML = `
                             <div class="sso-user-info">
                                 <span class="material-icons sso-avatar-icon">account_circle</span>
@@ -220,9 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <span class="sso-user-email">${escapeHtml(session.email)}</span>
                                 </div>
                             </div>
-                            ${backLink}
+                            <a href="#" class="sidebar-link btn-back-home"><span class="material-icons">home</span><span>Retour à l'accueil</span></a>
                         `;
-                        document.getElementById('btn-back-home').addEventListener('click', (e) => {
+                        sidebarFooter.querySelector('.btn-back-home').addEventListener('click', (e) => {
                             e.preventDefault();
                             appContainer.style.display = 'none';
                             homeScreen.style.display = 'flex';
@@ -231,15 +230,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // Back to home from sidebar (initial static link)
-            const backBtn = document.getElementById('btn-back-home');
-            if (backBtn) {
-                backBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    appContainer.style.display = 'none';
-                    homeScreen.style.display = 'flex';
+            // Material request button → show material section
+            const materialBtn = document.getElementById('btn-go-material');
+            const materialContainer = document.getElementById('material-container');
+            if (materialBtn && materialContainer) {
+                materialBtn.addEventListener('click', () => {
+                    homeScreen.style.display = 'none';
+                    materialContainer.style.display = 'flex';
                 });
             }
+
+            // All "back to home" buttons (class-based)
+            document.querySelectorAll('.btn-back-home').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    appContainer.style.display = 'none';
+                    if (materialContainer) materialContainer.style.display = 'none';
+                    homeScreen.style.display = 'flex';
+                });
+            });
 
             // Logout from home screen
             const homeLogout = document.getElementById('home-logout');

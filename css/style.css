@@ -1465,3 +1465,31 @@ textarea::placeholder {
 .btn-home-logout .material-icons {
     font-size: 1rem;
 }
+
+/* ===== Admin back button ===== */
+.btn-back-admin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    color: #64748b;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-back-admin:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.btn-back-admin .material-icons {
+    font-size: 1.25rem;
+}
+
+/* Material container uses same layout as app-container */
+.material-container {
+    display: flex;
+    min-height: 100vh;
+}
