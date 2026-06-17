@@ -19,16 +19,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('app-container');
     if (!ssoGate || !appContainer) return;
 
+    console.log('[SSO] Page loaded. URL:', window.location.href);
+    console.log('[SSO] Hash:', window.location.hash);
+    console.log('[SSO] Search:', window.location.search);
+
     // 1. Vérifier si on revient d'Okta avec un id_token dans le hash
     const hashParams = new URLSearchParams(window.location.hash.substring(1));
     const idToken = hashParams.get('id_token');
     const returnedState = hashParams.get('state');
-    const error = hashParams.get('error');
+    const error = hashParams.get('error') || hashParams.get('error_description');
 
     // Gérer le paramètre iss (3rd party initiated login depuis dashboard Okta)
     const urlParams = new URLSearchParams(window.location.search);
     const issParam = urlParams.get('iss');
+    // Aussi vérifier error dans les query params (certaines configs Okta renvoient l'erreur ici)
+    const queryError = urlParams.get('error');
+    const queryErrorDesc = urlParams.get('error_description');
+
+    if (queryError) {
+        console.error('[SSO] Query error:', queryError, queryErrorDesc);
+        const errorEl = document.getElementById('sso-error');
+        errorEl.textContent = queryErrorDesc || queryError;
+        errorEl.style.display = 'block';
+        sessionStorage.removeItem('okta_login_attempted');
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+    }
+
     if (issParam) {
+        console.log('[SSO] ISS parameter detected, cleaning URL');
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
