@@ -1,6 +1,7 @@
 /**
- * Okta OIDC - Authentification via Okta (Authorization Code + PKCE)
+ * Okta OIDC - Authentification via Okta (Implicit Flow)
  * Restreint aux adresses @recommerce.com et @circularx.com
+ * Simple : une redirection, pas d'échange de token côté client
  */
 
 const OKTA_CONFIG = {
@@ -8,130 +9,103 @@ const OKTA_CONFIG = {
     clientId: '0oak5r1481CKBgoeM0i7',
     redirectUri: window.location.origin + window.location.pathname,
     scopes: ['openid', 'profile', 'email'],
-    // Utiliser 'default' pour le Custom Authorization Server, ou '' pour le Org Authorization Server
-    authServerId: 'default',
 };
-
-function getAuthBaseUrl() {
-    return OKTA_CONFIG.authServerId
-        ? `${OKTA_CONFIG.orgUrl}/oauth2/${OKTA_CONFIG.authServerId}/v1`
-        : `${OKTA_CONFIG.orgUrl}/oauth2/v1`;
-}
 
 const ALLOWED_DOMAINS = ['recommerce.com', 'circularx.com'];
 const OKTA_SESSION_KEY = 'onboarding_okta_session';
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     const ssoGate = document.getElementById('sso-gate');
     const appContainer = document.getElementById('app-container');
     if (!ssoGate || !appContainer) return;
 
-    // Vérifier si on revient d'une redirection Okta (code dans l'URL)
-    const urlParams = new URLSearchParams(window.location.search);
-    const authCode = urlParams.get('code');
-    const returnedState = urlParams.get('state');
-    const error = urlParams.get('error');
+    // 1. Vérifier si on revient d'Okta avec un id_token dans le hash
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const idToken = hashParams.get('id_token');
+    const returnedState = hashParams.get('state');
+    const error = hashParams.get('error');
 
     if (error) {
         const errorEl = document.getElementById('sso-error');
-        errorEl.textContent = urlParams.get('error_description') || 'Erreur d\'authentification';
+        errorEl.textContent = hashParams.get('error_description') || 'Erreur d\'authentification';
         errorEl.style.display = 'block';
         ssoGate.style.display = 'flex';
+        sessionStorage.removeItem('okta_login_attempted');
         window.history.replaceState({}, document.title, window.location.pathname);
         return;
     }
 
-    if (authCode && returnedState) {
-        await handleAuthCode(authCode, returnedState);
+    if (idToken && returnedState) {
+        handleToken(idToken, returnedState);
         window.history.replaceState({}, document.title, window.location.pathname);
         return;
     }
 
-    // Vérifier session existante
+    // 2. Vérifier session existante
     const existingSession = getOktaSession();
     if (existingSession && !isSessionExpired(existingSession)) {
         showApp(existingSession);
         return;
     }
 
-    // Si pas de session et pas d'erreur, lancer automatiquement le login Okta
-    // (ex: l'utilisateur arrive depuis le dashboard Okta)
-    if (!error && !sessionStorage.getItem('okta_login_attempted')) {
+    // 3. Auto-login (première visite ou arrivée depuis dashboard Okta)
+    if (!sessionStorage.getItem('okta_login_attempted')) {
         sessionStorage.setItem('okta_login_attempted', '1');
-        await startOktaLogin();
+        startOktaLogin();
         return;
     }
     sessionStorage.removeItem('okta_login_attempted');
 
-    // Afficher la gate (fallback si auto-login échoue)
+    // 4. Fallback : afficher la gate avec bouton
     ssoGate.style.display = 'flex';
-
-    // Bouton de connexion
     const loginBtn = document.getElementById('okta-login-btn');
     if (loginBtn) {
         loginBtn.addEventListener('click', startOktaLogin);
     }
 
-    async function startOktaLogin() {
+    function startOktaLogin() {
         const state = generateRandomString(32);
-        const codeVerifier = generateRandomString(64);
-        const codeChallenge = await generateCodeChallenge(codeVerifier);
-
+        const nonce = generateRandomString(32);
         sessionStorage.setItem('okta_state', state);
-        sessionStorage.setItem('okta_code_verifier', codeVerifier);
+        sessionStorage.setItem('okta_nonce', nonce);
 
-        const authUrl = `${getAuthBaseUrl()}/authorize?` +
+        const authUrl = `${OKTA_CONFIG.orgUrl}/oauth2/v1/authorize?` +
             `client_id=${encodeURIComponent(OKTA_CONFIG.clientId)}` +
-            `&response_type=code` +
+            `&response_type=id_token` +
             `&scope=${encodeURIComponent(OKTA_CONFIG.scopes.join(' '))}` +
             `&redirect_uri=${encodeURIComponent(OKTA_CONFIG.redirectUri)}` +
             `&state=${encodeURIComponent(state)}` +
-            `&code_challenge=${encodeURIComponent(codeChallenge)}` +
-            `&code_challenge_method=S256`;
+            `&nonce=${encodeURIComponent(nonce)}` +
+            `&response_mode=fragment`;
 
         window.location.href = authUrl;
     }
 
-    async function handleAuthCode(code, state) {
+    function handleToken(idToken, state) {
         const errorEl = document.getElementById('sso-error');
 
         // Vérifier le state
         const savedState = sessionStorage.getItem('okta_state');
         if (state !== savedState) {
-            errorEl.textContent = 'Erreur de sécurité (state invalide). Veuillez réessayer.';
+            errorEl.textContent = 'Erreur de sécurité. Veuillez réessayer.';
             errorEl.style.display = 'block';
             ssoGate.style.display = 'flex';
             return;
         }
         sessionStorage.removeItem('okta_state');
 
-        const codeVerifier = sessionStorage.getItem('okta_code_verifier');
-        sessionStorage.removeItem('okta_code_verifier');
-
         try {
-            // Échanger le code contre des tokens
-            const tokenUrl = `${getAuthBaseUrl()}/token`;
-            console.log('Token exchange URL:', tokenUrl);
-            const tokenResponse = await fetch(tokenUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    grant_type: 'authorization_code',
-                    client_id: OKTA_CONFIG.clientId,
-                    code: code,
-                    redirect_uri: OKTA_CONFIG.redirectUri,
-                    code_verifier: codeVerifier,
-                }),
-            });
+            const payload = decodeJwtPayload(idToken);
 
-            if (!tokenResponse.ok) {
-                const errData = await tokenResponse.json().catch(() => ({}));
-                console.error('Token exchange error:', errData);
-                throw new Error(errData.error_description || errData.error || `Token exchange failed (${tokenResponse.status})`);
+            // Vérifier le nonce
+            const savedNonce = sessionStorage.getItem('okta_nonce');
+            if (payload.nonce !== savedNonce) {
+                errorEl.textContent = 'Erreur de sécurité (nonce). Veuillez réessayer.';
+                errorEl.style.display = 'block';
+                ssoGate.style.display = 'flex';
+                return;
             }
-
-            const tokens = await tokenResponse.json();
-            const payload = decodeJwtPayload(tokens.id_token);
+            sessionStorage.removeItem('okta_nonce');
 
             // Vérifier le domaine
             const emailDomain = (payload.email || '').split('@')[1];
@@ -154,10 +128,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             sessionStorage.removeItem('okta_login_attempted');
             showApp(session);
         } catch (err) {
-            errorEl.textContent = err.message || 'Erreur lors de l\'authentification.';
+            errorEl.textContent = 'Erreur lors de l\'authentification.';
             errorEl.style.display = 'block';
             ssoGate.style.display = 'flex';
-            console.error('Okta OIDC Error:', err);
+            console.error('Okta Error:', err);
         }
     }
 
@@ -165,7 +139,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         ssoGate.style.display = 'none';
         appContainer.style.display = 'flex';
 
-        // Afficher l'utilisateur dans la sidebar
         const sidebarFooter = document.querySelector('.sidebar-footer');
         if (sidebarFooter) {
             sidebarFooter.innerHTML = `
@@ -187,11 +160,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function oktaLogout() {
         localStorage.removeItem(OKTA_SESSION_KEY);
-        // Redirect to Okta logout
-        const logoutUrl = `${getAuthBaseUrl()}/logout?` +
-            `client_id=${encodeURIComponent(OKTA_CONFIG.clientId)}` +
-            `&post_logout_redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}`;
-        window.location.href = logoutUrl;
+        window.location.href = `${OKTA_CONFIG.orgUrl}/login/signout?fromURI=${encodeURIComponent(OKTA_CONFIG.redirectUri)}`;
     }
 
     function getOktaSession() {
@@ -220,14 +189,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         return Array.from(array, b => b.toString(36)).join('').substring(0, length);
     }
 
-    async function generateCodeChallenge(codeVerifier) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(codeVerifier);
-        const digest = await crypto.subtle.digest('SHA-256', data);
-        return btoa(String.fromCharCode(...new Uint8Array(digest)))
-            .replace(/\+/g, '-')
-            .replace(/\//g, '_')
-            .replace(/=+$/, '');
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text || '';
+        return div.innerHTML;
+    }
+});
     }
 
     function escapeHtml(text) {
