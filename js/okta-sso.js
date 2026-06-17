@@ -5,7 +5,7 @@
 
 const OKTA_CONFIG = {
     orgUrl: 'https://recommerce.okta-emea.com',
-    clientId: '0oak5qmvc2PvJUdAF0i7',
+    clientId: '0oak5r1481CKBgoeM0i7',
     redirectUri: window.location.origin + window.location.pathname,
     scopes: ['openid', 'profile', 'email'],
     // Utiliser 'default' pour le Custom Authorization Server, ou '' pour le Org Authorization Server
