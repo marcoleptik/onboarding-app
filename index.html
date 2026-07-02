@@ -588,8 +588,10 @@
                 <span class="logo-sub">Matériel</span>
             </div>
             <nav class="step-nav">
-                <ul>
-                    <li class="step-item active"><span class="step-number">1</span><span class="step-label">Votre demande</span></li>
+                <ul id="mat-step-list">
+                    <li class="step-item active" data-mat-step="1"><span class="step-number">1</span><span class="step-label">Lieu d'utilisation</span></li>
+                    <li class="step-item" data-mat-step="2"><span class="step-number">2</span><span class="step-label">Matériel</span></li>
+                    <li class="step-item" data-mat-step="3"><span class="step-number">3</span><span class="step-label">Commentaire</span></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -602,49 +604,95 @@
         </aside>
         <main class="main-content">
             <div class="form-container">
-                <section class="form-step active">
+                <!-- Mat Step 1: Lieu -->
+                <section class="form-step active" data-mat-step="1">
                     <div class="step-header">
-                        <h1>Demande de matériel</h1>
-                        <p>Sélectionnez le matériel dont vous avez besoin (bureau ou télétravail)</p>
+                        <h1>Lieu d'utilisation</h1>
+                        <p>Ce matériel sera utilisé au bureau ou en télétravail ?</p>
                     </div>
                     <div class="form-grid">
                         <div class="form-group full-width">
-                            <label>Type de demande <span class="required">*</span></label>
-                            <div class="radio-group">
+                            <label>Où utiliserez-vous ce matériel ? <span class="required">*</span></label>
+                            <div class="radio-group large-cards">
                                 <label class="radio-card">
-                                    <input type="radio" name="material-type" value="Bureau" checked>
-                                    <span class="radio-card-content">Bureau</span>
+                                    <input type="radio" name="material-type" value="Bureau">
+                                    <span class="radio-card-content"><span class="material-icons">business</span><strong>Bureau</strong><small>Matériel pour les locaux</small></span>
                                 </label>
                                 <label class="radio-card">
                                     <input type="radio" name="material-type" value="Télétravail">
-                                    <span class="radio-card-content">Télétravail</span>
+                                    <span class="radio-card-content"><span class="material-icons">home_work</span><strong>Télétravail</strong><small>Matériel pour la maison</small></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mat Step 2: Raison + Matériel -->
+                <section class="form-step" data-mat-step="2">
+                    <div class="step-header">
+                        <h1>Choix du matériel</h1>
+                        <p>Indiquez la raison de votre demande et sélectionnez le matériel souhaité</p>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Raison de la demande <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="material-reason" value="Perdu">
+                                    <span class="radio-card-content"><span class="material-icons">search_off</span> Perdu</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="material-reason" value="Volé">
+                                    <span class="radio-card-content"><span class="material-icons">report</span> Volé</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="material-reason" value="Ne fonctionne plus">
+                                    <span class="radio-card-content"><span class="material-icons">build_circle</span> Ne fonctionne plus</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="material-reason" value="Jamais eu">
+                                    <span class="radio-card-content"><span class="material-icons">new_releases</span> Je n'en avais pas avant</span>
                                 </label>
                             </div>
                         </div>
                         <div class="form-group full-width">
                             <label>Matériel souhaité <span class="required">*</span></label>
                             <div class="checkbox-group">
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Écran"><span>Écran</span></label>
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Clavier"><span>Clavier</span></label>
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Souris"><span>Souris</span></label>
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Câble HDMI"><span>Câble HDMI</span></label>
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Casque"><span>Casque</span></label>
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Support PC"><span>Support PC</span></label>
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Hub USB"><span>Hub USB</span></label>
-                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Chargeur"><span>Chargeur</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Écran"><span class="checkbox-card-content"><span class="material-icons">desktop_windows</span> Écran</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Clavier"><span class="checkbox-card-content"><span class="material-icons">keyboard</span> Clavier</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Souris"><span class="checkbox-card-content"><span class="material-icons">mouse</span> Souris</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Câble HDMI"><span class="checkbox-card-content"><span class="material-icons">cable</span> Câble HDMI</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Casque"><span class="checkbox-card-content"><span class="material-icons">headphones</span> Casque</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Support PC"><span class="checkbox-card-content"><span class="material-icons">laptop_mac</span> Support PC</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Hub USB"><span class="checkbox-card-content"><span class="material-icons">usb</span> Hub USB</span></label>
+                                <label class="checkbox-card"><input type="checkbox" name="material-items" value="Chargeur"><span class="checkbox-card-content"><span class="material-icons">power</span> Chargeur</span></label>
                             </div>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="material-comment">Commentaire / Précisions</label>
-                            <textarea id="material-comment" name="material-comment" rows="3" placeholder="Précisez votre besoin si nécessaire..."></textarea>
                         </div>
                     </div>
                 </section>
+
+                <!-- Mat Step 3: Commentaire -->
+                <section class="form-step" data-mat-step="3">
+                    <div class="step-header">
+                        <h1>Commentaire</h1>
+                        <p>Un détail à ajouter ? Précisez ici votre besoin</p>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="material-comment">Commentaire libre</label>
+                            <textarea id="material-comment" name="material-comment" rows="5" placeholder="Exemple : besoin d'un écran 27 pouces, casque avec micro pour visioconférences, etc."></textarea>
+                        </div>
+                    </div>
+                </section>
+
                 <div class="form-navigation">
-                    <button type="button" class="btn btn-secondary btn-back-home">
-                        <span class="material-icons">arrow_back</span> Retour
+                    <button type="button" class="btn btn-secondary" id="btn-mat-prev" disabled>
+                        <span class="material-icons">arrow_back</span> Précédent
                     </button>
-                    <button type="button" class="btn btn-success" id="btn-submit-material">
+                    <button type="button" class="btn btn-primary" id="btn-mat-next">
+                        Suivant <span class="material-icons">arrow_forward</span>
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn-submit-material" style="display:none;">
                         <span class="material-icons">check_circle</span> Soumettre la demande
                     </button>
                 </div>

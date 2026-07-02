@@ -488,4 +488,82 @@ document.addEventListener('DOMContentLoaded', () => {
             mailingLists: Array.from(document.querySelectorAll('input[name="mailing-lists[]"]')).map(i => i.value.trim()).filter(v => v),
         };
     }
+
+    // ===== Material Request Multi-Step Navigation =====
+    const matContainer = document.getElementById('material-container');
+    if (matContainer) {
+        const matSteps = matContainer.querySelectorAll('.form-step');
+        const matStepItems = matContainer.querySelectorAll('.step-item');
+        const btnMatPrev = document.getElementById('btn-mat-prev');
+        const btnMatNext = document.getElementById('btn-mat-next');
+        const btnSubmitMat = document.getElementById('btn-submit-material');
+        let currentMatStep = 1;
+        const totalMatSteps = matSteps.length;
+
+        function goToMatStep(step) {
+            if (step < 1 || step > totalMatSteps) return;
+
+            matContainer.querySelector(`.form-step[data-mat-step="${currentMatStep}"]`).classList.remove('active');
+            currentMatStep = step;
+            matContainer.querySelector(`.form-step[data-mat-step="${currentMatStep}"]`).classList.add('active');
+
+            // Update sidebar
+            matStepItems.forEach(item => {
+                const itemStep = parseInt(item.dataset.matStep);
+                item.classList.remove('active', 'completed');
+                if (itemStep < currentMatStep) {
+                    item.classList.add('completed');
+                } else if (itemStep === currentMatStep) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Update buttons
+            btnMatPrev.disabled = currentMatStep === 1;
+            if (currentMatStep === totalMatSteps) {
+                btnMatNext.style.display = 'none';
+                btnSubmitMat.style.display = 'inline-flex';
+            } else {
+                btnMatNext.style.display = 'inline-flex';
+                btnSubmitMat.style.display = 'none';
+            }
+        }
+
+        btnMatNext.addEventListener('click', () => {
+            // Validate current step
+            if (currentMatStep === 1) {
+                const typeSelected = document.querySelector('input[name="material-type"]:checked');
+                if (!typeSelected) {
+                    highlightRadioGroup('material-type');
+                    return;
+                }
+            }
+            if (currentMatStep === 2) {
+                const reasonSelected = document.querySelector('input[name="material-reason"]:checked');
+                const itemsSelected = document.querySelectorAll('input[name="material-items"]:checked');
+                if (!reasonSelected) {
+                    highlightRadioGroup('material-reason');
+                    return;
+                }
+                if (itemsSelected.length === 0) {
+                    alert('Veuillez sélectionner au moins un élément de matériel.');
+                    return;
+                }
+            }
+            goToMatStep(currentMatStep + 1);
+        });
+
+        btnMatPrev.addEventListener('click', () => {
+            goToMatStep(currentMatStep - 1);
+        });
+
+        matStepItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetStep = parseInt(item.dataset.matStep);
+                if (targetStep <= currentMatStep) {
+                    goToMatStep(targetStep);
+                }
+            });
+        });
+    }
 });
