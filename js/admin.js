@@ -224,4 +224,112 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init
     renderSubmissions();
+
+    // ===== Material Tab =====
+    function getMaterialSubmissions() {
+        return JSON.parse(localStorage.getItem('material_submissions') || '[]');
+    }
+
+    function renderMaterial(filter = '') {
+        const submissions = getMaterialSubmissions();
+        const tbody = document.getElementById('material-body');
+        const noData = document.getElementById('no-material');
+        const filterLower = filter.toLowerCase();
+
+        const filtered = filter
+            ? submissions.filter(s =>
+                (s.firstname + ' ' + s.lastname + ' ' + s.email + ' ' + s.type + ' ' + s.reason + ' ' + (s.items || []).join(' '))
+                    .toLowerCase().includes(filterLower)
+            )
+            : submissions;
+
+        // Stats
+        const today = new Date().toISOString().slice(0, 10);
+        const month = new Date().toISOString().slice(0, 7);
+        document.getElementById('stat-mat-total').textContent = submissions.length;
+        document.getElementById('stat-mat-today').textContent = submissions.filter(s => (s.submittedAt || '').slice(0, 10) === today).length;
+        document.getElementById('stat-mat-month').textContent = submissions.filter(s => (s.submittedAt || '').slice(0, 7) === month).length;
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '';
+            noData.style.display = 'flex';
+            return;
+        }
+
+        noData.style.display = 'none';
+        tbody.innerHTML = filtered
+            .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))
+            .map(s => `
+                <tr>
+                    <td>${formatDateTime(s.submittedAt)}</td>
+                    <td>${escapeHtml(s.firstname)}</td>
+                    <td>${escapeHtml(s.lastname)}</td>
+                    <td>${escapeHtml(s.email)}</td>
+                    <td><span class="badge">${escapeHtml(s.type)}</span></td>
+                    <td>${escapeHtml(s.reason)}</td>
+                    <td>${escapeHtml((s.items || []).join(', '))}</td>
+                    <td class="actions-cell">
+                        <button class="btn-icon" title="Voir le détail" data-action="view-mat" data-id="${s.id}">
+                            <span class="material-icons">visibility</span>
+                        </button>
+                        <button class="btn-icon btn-icon-danger" title="Supprimer" data-action="delete-mat" data-id="${s.id}">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+        // Attach events
+        tbody.querySelectorAll('[data-action="view-mat"]').forEach(btn => {
+            btn.addEventListener('click', () => showMaterialDetail(btn.dataset.id));
+        });
+        tbody.querySelectorAll('[data-action="delete-mat"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (confirm('Supprimer cette demande ?')) {
+                    const subs = getMaterialSubmissions().filter(s => s.id !== btn.dataset.id);
+                    localStorage.setItem('material_submissions', JSON.stringify(subs));
+                    renderMaterial(filter);
+                }
+            });
+        });
+    }
+
+    function showMaterialDetail(id) {
+        const submissions = getMaterialSubmissions();
+        const s = submissions.find(sub => sub.id === id);
+        if (!s) return;
+
+        const modal = document.getElementById('detail-modal');
+        const body = document.getElementById('modal-body');
+
+        body.innerHTML = `
+            <div class="detail-grid">
+                <div class="detail-section">
+                    <h3><span class="material-icons">person</span> Demandeur</h3>
+                    <div class="detail-row"><span class="label">Prénom</span><span class="value">${escapeHtml(s.firstname)}</span></div>
+                    <div class="detail-row"><span class="label">Nom</span><span class="value">${escapeHtml(s.lastname)}</span></div>
+                    <div class="detail-row"><span class="label">Email</span><span class="value">${escapeHtml(s.email)}</span></div>
+                </div>
+                <div class="detail-section">
+                    <h3><span class="material-icons">devices</span> Demande</h3>
+                    <div class="detail-row"><span class="label">Lieu</span><span class="value">${escapeHtml(s.type)}</span></div>
+                    <div class="detail-row"><span class="label">Raison</span><span class="value">${escapeHtml(s.reason)}</span></div>
+                    <div class="detail-row"><span class="label">Matériel</span><span class="value">${escapeHtml((s.items || []).join(', '))}</span></div>
+                    ${s.comment ? `<div class="detail-row"><span class="label">Commentaire</span><span class="value">${escapeHtml(s.comment)}</span></div>` : ''}
+                </div>
+            </div>
+            <div class="detail-footer">
+                <span class="text-muted">Soumis le ${formatDateTime(s.submittedAt)}</span>
+            </div>
+        `;
+
+        modal.style.display = 'flex';
+    }
+
+    // Search material
+    document.getElementById('search-material').addEventListener('input', (e) => {
+        renderMaterial(e.target.value);
+    });
+
+    renderMaterial();
 });
