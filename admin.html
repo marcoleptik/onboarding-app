@@ -22,10 +22,6 @@
                         <span class="material-icons step-icon">description</span>
                         <span class="step-label">Onboarding</span>
                     </li>
-                    <li class="step-item" data-tab="material">
-                        <span class="material-icons step-icon">devices</span>
-                        <span class="step-label">Matériel</span>
-                    </li>
                     <li class="step-item restricted-tab" data-tab="licences" style="display:none;">
                         <span class="material-icons step-icon">vpn_key</span>
                         <span class="step-label">Licences</span>
@@ -105,61 +101,6 @@
                         <div id="no-submissions" class="empty-state" style="display:none;">
                             <span class="material-icons">inbox</span>
                             <p>Aucune soumission pour le moment</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB: Material -->
-            <div class="tab-content" id="tab-material">
-                <div class="admin-stats" id="admin-stats-material">
-                    <div class="stat-card">
-                        <span class="material-icons">devices</span>
-                        <div class="stat-info">
-                            <span class="stat-value" id="stat-mat-total">0</span>
-                            <span class="stat-label">Demandes totales</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="material-icons">today</span>
-                        <div class="stat-info">
-                            <span class="stat-value" id="stat-mat-today">0</span>
-                            <span class="stat-label">Aujourd'hui</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="material-icons">calendar_month</span>
-                        <div class="stat-info">
-                            <span class="stat-value" id="stat-mat-month">0</span>
-                            <span class="stat-label">Ce mois</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="admin-section">
-                    <div class="section-header">
-                        <h2>Demandes de matériel</h2>
-                        <input type="text" id="search-material" class="search-input" placeholder="Rechercher par nom, email...">
-                    </div>
-                    <div class="table-container">
-                        <table class="submissions-table" id="material-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Prénom</th>
-                                    <th>Nom</th>
-                                    <th>Email</th>
-                                    <th>Lieu</th>
-                                    <th>Raison</th>
-                                    <th>Matériel</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="material-body">
-                            </tbody>
-                        </table>
-                        <div id="no-material" class="empty-state" style="display:none;">
-                            <span class="material-icons">inbox</span>
-                            <p>Aucune demande de matériel pour le moment</p>
                         </div>
                     </div>
                 </div>

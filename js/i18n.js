@@ -93,13 +93,6 @@ const translations = {
         'nav.submitting': 'Envoi en cours...',
 
         // Material request
-        'mat.step0': 'Vos informations',
-        'mat.step0.title': 'Vos informations',
-        'mat.step0.subtitle': 'Afin de traiter votre demande et vous envoyer un r\u00e9capitulatif',
-        'mat.firstname': 'Pr\u00e9nom',
-        'mat.lastname': 'Nom',
-        'mat.email': 'Email',
-        'mat.email.placeholder': 'prenom.nom@recommerce.com',
         'mat.step1': "Lieu d'utilisation",
         'mat.step2': 'Matériel',
         'mat.step3': 'Commentaire',
@@ -231,13 +224,6 @@ const translations = {
         'nav.submitting': 'Sending...',
 
         // Material request
-        'mat.step0': 'Your information',
-        'mat.step0.title': 'Your information',
-        'mat.step0.subtitle': 'To process your request and send you a summary',
-        'mat.firstname': 'First name',
-        'mat.lastname': 'Surname',
-        'mat.email': 'Email',
-        'mat.email.placeholder': 'firstname.lastname@recommerce.com',
         'mat.step1': 'Location',
         'mat.step2': 'Equipment',
         'mat.step3': 'Comment',

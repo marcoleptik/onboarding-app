@@ -13,7 +13,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..')));
 
-// Email endpoint - Onboarding
+// Email endpoint
 app.post('/api/send-onboarding', async (req, res) => {
     console.log('[EMAIL] Requête reçue pour:', req.body.firstname, req.body.lastname);
     try {
@@ -29,38 +29,6 @@ app.post('/api/send-onboarding', async (req, res) => {
 
         await sgMail.send(msg);
         res.json({ success: true, message: 'Email envoyé avec succès' });
-    } catch (error) {
-        console.error('SendGrid error:', error.response?.body || error.message);
-        res.status(500).json({ success: false, message: 'Erreur lors de l\'envoi de l\'email' });
-    }
-});
-
-// Email endpoint - Material request
-app.post('/api/send-material', async (req, res) => {
-    console.log('[EMAIL] Demande matériel de:', req.body.firstname, req.body.lastname);
-    try {
-        const data = req.body;
-        const htmlContent = buildMaterialEmailHtml(data);
-
-        // Send to IT team
-        const msgToIT = {
-            to: process.env.RECIPIENT_EMAIL,
-            from: process.env.SENDER_EMAIL,
-            subject: `[Matériel] ${data.firstname} ${data.lastname} — ${data.reason} — ${data.type}`,
-            html: htmlContent,
-        };
-
-        // Send confirmation to requester
-        const msgToRequester = {
-            to: data.email,
-            from: process.env.SENDER_EMAIL,
-            subject: `Votre demande de matériel a été enregistrée`,
-            html: htmlContent,
-        };
-
-        await sgMail.send(msgToIT);
-        await sgMail.send(msgToRequester);
-        res.json({ success: true, message: 'Emails envoyés avec succès' });
     } catch (error) {
         console.error('SendGrid error:', error.response?.body || error.message);
         res.status(500).json({ success: false, message: 'Erreur lors de l\'envoi de l\'email' });
@@ -167,55 +135,6 @@ function buildEmailHtml(data) {
 
             <div style="margin-top: 24px; padding: 16px; background: #e8f5e9; border-radius: 8px; text-align: center; color: #2e7d32; font-size: 14px;">
                 ✅ Ce formulaire a été soumis via l'application Onboarding RS
-            </div>
-        </div>
-    </div>
-    `;
-}
-
-function buildMaterialEmailHtml(data) {
-    const escapeHtml = (str) => {
-        if (!str) return '-';
-        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    };
-
-    const formatList = (arr) => {
-        if (!arr || arr.length === 0) return 'Aucun';
-        return arr.map(item => escapeHtml(item)).join(', ');
-    };
-
-    return `
-    <div style="font-family: 'Inter', Arial, sans-serif; max-width: 700px; margin: 0 auto; background: #f8f9fa; padding: 20px;">
-        <div style="background: #1a1a2e; color: white; padding: 24px 32px; border-radius: 12px 12px 0 0;">
-            <h1 style="margin: 0; font-size: 22px;">🖥️ Demande de matériel</h1>
-            <p style="margin: 8px 0 0; opacity: 0.8; font-size: 14px;">
-                ${escapeHtml(data.firstname)} ${escapeHtml(data.lastname)} — ${escapeHtml(data.type)}
-            </p>
-        </div>
-
-        <div style="background: white; padding: 32px; border-radius: 0 0 12px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-
-            <h2 style="color: #1a1a2e; border-bottom: 2px solid #e8e8ef; padding-bottom: 8px; font-size: 16px;">
-                👤 Demandeur
-            </h2>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-                <tr><td style="padding: 8px 12px; color: #666; width: 200px;">Prénom</td><td style="padding: 8px 12px; font-weight: 500;">${escapeHtml(data.firstname)}</td></tr>
-                <tr style="background: #f8f9fa;"><td style="padding: 8px 12px; color: #666;">Nom</td><td style="padding: 8px 12px; font-weight: 500;">${escapeHtml(data.lastname)}</td></tr>
-                <tr><td style="padding: 8px 12px; color: #666;">Email</td><td style="padding: 8px 12px; font-weight: 500;">${escapeHtml(data.email)}</td></tr>
-            </table>
-
-            <h2 style="color: #1a1a2e; border-bottom: 2px solid #e8e8ef; padding-bottom: 8px; font-size: 16px;">
-                📋 Détails de la demande
-            </h2>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-                <tr><td style="padding: 8px 12px; color: #666; width: 200px;">Lieu d'utilisation</td><td style="padding: 8px 12px; font-weight: 500;">${escapeHtml(data.type)}</td></tr>
-                <tr style="background: #f8f9fa;"><td style="padding: 8px 12px; color: #666;">Raison</td><td style="padding: 8px 12px; font-weight: 500;">${escapeHtml(data.reason)}</td></tr>
-                <tr><td style="padding: 8px 12px; color: #666;">Matériel demandé</td><td style="padding: 8px 12px; font-weight: 500;">${formatList(data.items)}</td></tr>
-                ${data.comment ? `<tr style="background: #f8f9fa;"><td style="padding: 8px 12px; color: #666;">Commentaire</td><td style="padding: 8px 12px; font-weight: 500;">${escapeHtml(data.comment)}</td></tr>` : ''}
-            </table>
-
-            <div style="margin-top: 24px; padding: 16px; background: #e8f5e9; border-radius: 8px; text-align: center; color: #2e7d32; font-size: 14px;">
-                ✅ Cette demande a été soumise via l'application Onboarding RS
             </div>
         </div>
     </div>
