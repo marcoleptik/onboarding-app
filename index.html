@@ -589,9 +589,10 @@
             </div>
             <nav class="step-nav">
                 <ul id="mat-step-list">
-                    <li class="step-item active" data-mat-step="1"><span class="step-number">1</span><span class="step-label" data-i18n="mat.step1">Lieu d'utilisation</span></li>
-                    <li class="step-item" data-mat-step="2"><span class="step-number">2</span><span class="step-label" data-i18n="mat.step2">Matériel</span></li>
-                    <li class="step-item" data-mat-step="3"><span class="step-number">3</span><span class="step-label" data-i18n="mat.step3">Commentaire</span></li>
+                    <li class="step-item active" data-mat-step="1"><span class="step-number">1</span><span class="step-label" data-i18n="mat.step0">Vos informations</span></li>
+                    <li class="step-item" data-mat-step="2"><span class="step-number">2</span><span class="step-label" data-i18n="mat.step1">Lieu d'utilisation</span></li>
+                    <li class="step-item" data-mat-step="3"><span class="step-number">3</span><span class="step-label" data-i18n="mat.step2">Matériel</span></li>
+                    <li class="step-item" data-mat-step="4"><span class="step-number">4</span><span class="step-label" data-i18n="mat.step3">Commentaire</span></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -604,8 +605,30 @@
         </aside>
         <main class="main-content">
             <div class="form-container">
-                <!-- Mat Step 1: Lieu -->
+                <!-- Mat Step 1: Infos demandeur -->
                 <section class="form-step active" data-mat-step="1">
+                    <div class="step-header">
+                        <h1 data-i18n="mat.step0.title">Vos informations</h1>
+                        <p data-i18n="mat.step0.subtitle">Afin de traiter votre demande et vous envoyer un récapitulatif</p>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="mat-firstname"><span data-i18n="mat.firstname">Prénom</span> <span class="required">*</span></label>
+                            <input type="text" id="mat-firstname" name="mat-firstname" required placeholder="Prénom" data-i18n-placeholder="mat.firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="mat-lastname"><span data-i18n="mat.lastname">Nom</span> <span class="required">*</span></label>
+                            <input type="text" id="mat-lastname" name="mat-lastname" required placeholder="Nom" data-i18n-placeholder="mat.lastname">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="mat-email"><span data-i18n="mat.email">Email</span> <span class="required">*</span></label>
+                            <input type="email" id="mat-email" name="mat-email" required placeholder="prenom.nom@recommerce.com" data-i18n-placeholder="mat.email.placeholder">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mat Step 2: Lieu -->
+                <section class="form-step" data-mat-step="2">
                     <div class="step-header">
                         <h1 data-i18n="mat.step1.title">Lieu d'utilisation</h1>
                         <p data-i18n="mat.step1.subtitle">Ce matériel sera utilisé au bureau ou en télétravail ?</p>
@@ -627,8 +650,8 @@
                     </div>
                 </section>
 
-                <!-- Mat Step 2: Raison + Matériel -->
-                <section class="form-step" data-mat-step="2">
+                <!-- Mat Step 3: Raison + Matériel -->
+                <section class="form-step" data-mat-step="3">
                     <div class="step-header">
                         <h1 data-i18n="mat.step2.title">Choix du matériel</h1>
                         <p data-i18n="mat.step2.subtitle">Indiquez la raison de votre demande et sélectionnez le matériel souhaité</p>
@@ -671,8 +694,8 @@
                     </div>
                 </section>
 
-                <!-- Mat Step 3: Commentaire -->
-                <section class="form-step" data-mat-step="3">
+                <!-- Mat Step 4: Commentaire -->
+                <section class="form-step" data-mat-step="4">
                     <div class="step-header">
                         <h1 data-i18n="mat.step3.title">Commentaire</h1>
                         <p data-i18n="mat.step3.subtitle">Un détail à ajouter ? Précisez ici votre besoin</p>

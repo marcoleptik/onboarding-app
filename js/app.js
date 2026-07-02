@@ -532,13 +532,27 @@ document.addEventListener('DOMContentLoaded', () => {
         btnMatNext.addEventListener('click', () => {
             // Validate current step
             if (currentMatStep === 1) {
+                const firstname = document.getElementById('mat-firstname');
+                const lastname = document.getElementById('mat-lastname');
+                const email = document.getElementById('mat-email');
+                let valid = true;
+                [firstname, lastname, email].forEach(input => {
+                    if (!input.value.trim()) {
+                        input.style.borderColor = '#e74c3c';
+                        valid = false;
+                        input.addEventListener('input', () => { input.style.borderColor = ''; }, { once: true });
+                    }
+                });
+                if (!valid) return;
+            }
+            if (currentMatStep === 2) {
                 const typeSelected = document.querySelector('input[name="material-type"]:checked');
                 if (!typeSelected) {
                     highlightRadioGroup('material-type');
                     return;
                 }
             }
-            if (currentMatStep === 2) {
+            if (currentMatStep === 3) {
                 const reasonSelected = document.querySelector('input[name="material-reason"]:checked');
                 const itemsSelected = document.querySelectorAll('input[name="material-items"]:checked');
                 if (!reasonSelected) {
@@ -563,6 +577,63 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (targetStep <= currentMatStep) {
                     goToMatStep(targetStep);
                 }
+            });
+        });
+
+        // Material submit
+        btnSubmitMat.addEventListener('click', async () => {
+            const matData = {
+                firstname: document.getElementById('mat-firstname').value.trim(),
+                lastname: document.getElementById('mat-lastname').value.trim(),
+                email: document.getElementById('mat-email').value.trim(),
+                type: document.querySelector('input[name="material-type"]:checked')?.value || '',
+                reason: document.querySelector('input[name="material-reason"]:checked')?.value || '',
+                items: Array.from(document.querySelectorAll('input[name="material-items"]:checked')).map(i => i.value),
+                comment: document.getElementById('material-comment').value.trim(),
+                submittedAt: new Date().toISOString(),
+            };
+
+            // Save to localStorage
+            const materialSubmissions = JSON.parse(localStorage.getItem('material_submissions') || '[]');
+            matData.id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+            materialSubmissions.push(matData);
+            localStorage.setItem('material_submissions', JSON.stringify(materialSubmissions));
+
+            // Send email
+            btnSubmitMat.disabled = true;
+            btnSubmitMat.classList.add('is-loading');
+
+            let emailSent = false;
+            try {
+                const response = await fetch('/api/send-material', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(matData),
+                });
+                const result = await response.json();
+                emailSent = result.success;
+            } catch (err) {
+                console.error('Network error:', err);
+            }
+
+            // Show success
+            const formContainer = matContainer.querySelector('.form-container');
+            formContainer.innerHTML = `
+                <div class="success-message">
+                    <span class="material-icons">check_circle</span>
+                    <h2>Demande envoyée !</h2>
+                    <p>Votre demande de matériel a bien été enregistrée.</p>
+                    ${emailSent
+                        ? '<p style="color: #2e7d32;"><span class="material-icons" style="vertical-align: middle; font-size: 18px;">email</span> Un email récapitulatif vous a été envoyé.</p>'
+                        : '<p style="color: #e65100;"><span class="material-icons" style="vertical-align: middle; font-size: 18px;">warning</span> L\'email n\'a pas pu être envoyé, mais la demande a été enregistrée.</p>'
+                    }
+                    <button class="btn btn-primary btn-back-home" style="margin-top: 1.5rem;">
+                        <span class="material-icons">home</span> Retour à l'accueil
+                    </button>
+                </div>
+            `;
+            formContainer.querySelector('.btn-back-home').addEventListener('click', () => {
+                window.location.reload();
             });
         });
     }
